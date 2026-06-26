@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Password Analyzer</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; text-align: center; }
+        .box { border: 1px solid #ccc; padding: 20px; border-radius: 10px; background-color: #f9f9f9; }
+        input[type="text"] { width: 80%; padding: 10px; margin-bottom: 10px; }
+        button { padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .Strong { color: green; font-weight: bold; }
+        .Medium { color: orange; font-weight: bold; }
+        .Weak { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Password Strength Analyzer</h2>
+        
+        <form method="POST">
+            <input type="text" name="password" placeholder="Type a password..." value="{{ password }}">
+            <br>
+            <button type="submit">Analyze</button>
+        </form>
+
+        {% if error_msg %}
+            <div style="background-color: #ffe6e6; color: #cc0000; padding: 10px; border: 1px solid #cc0000; border-radius: 5px; margin-top: 15px;">
+                <strong>{{ error_msg }}</strong>
+            </div>
+        {% endif %}
+
+        {% if result %}
+            <h3>Strength: <span class="{{ result.strength }}">{{ result.strength }}</span></h3>
+            <p>Score: {{ result.score }} / 5</p>
+            {% if result.feedback %}
+                <ul style="text-align: left;">
+                {% for tip in result.feedback %}
+                    <li>{{ tip }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endif %}
+
+        <hr>
+        <p>Need a strong password? Try this one:</p>
+        <p style="font-family: monospace; background: #eee; padding: 5px;">{{ suggestion }}</p>
+    </div>
+</body>
+</html>
